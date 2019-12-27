@@ -11,5 +11,3 @@
     - always
   - name: Deploy module05-06
     include: module05-06.yml
-    tags:
-    - module05-06
