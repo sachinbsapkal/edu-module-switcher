@@ -30,7 +30,7 @@ avi_config:
           cloud_ref: '/api/cloud/?name=Default-Cloud'
           vrf_ref: '/api/vrfcontext/?name=global'
           health_monitor_refs:
-            - /api/healthmonitor/?name=module04-08-hm
+            - /api/healthmonitor/?name=System-DNS
           name: module04-08-pool
           enabled: true
   healthmonitor:
