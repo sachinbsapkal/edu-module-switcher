@@ -34,6 +34,8 @@
               enabled: true
       tenant_ref: /api/tenant/?name=module05-02
       tenant: module05-02
+      health_monitor_refs:
+      - /api/healthmonitor/?name=System-HTTP
       cloud_ref: '/api/cloud/?name=Default-Cloud'
       vrf_ref: '/api/vrfcontext/?name=global'
       name: module05-02-pool
