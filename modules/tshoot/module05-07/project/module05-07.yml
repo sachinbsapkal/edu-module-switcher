@@ -3,7 +3,7 @@
     tenant: admin
     tenant_ref: /api/tenant?name=admin
     name: aviuser
-  name: Create CC User Module05-08
+  name: Create CC User Module05-07
 - avi_cloud:
     avi_credentials: "{{ avi_credentials }}"
     name: LinuxServerCloud
@@ -20,4 +20,4 @@
           host_ip:
             type: V4
             addr: 172.20.130.104
-  name: Create LSC Module05-08
+  name: Create LSC Module05-07

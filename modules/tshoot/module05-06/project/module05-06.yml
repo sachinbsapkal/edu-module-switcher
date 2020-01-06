@@ -6,7 +6,7 @@
     params:
         fields: name,enabled,tenant_ref,cloud_ref,se_group_ref
   register: vs_collect
-  name: Collect VS Info Module05-07
+  name: Collect VS Info Module05-06
 - avi_virtualservice:
     avi_api_patch_op: replace
     avi_api_update_method: patch
@@ -16,7 +16,7 @@
     name: "{{ vs_detail.name }}"
     cloud_ref: '/api/cloud?name={{ vs_detail.cloud_ref | regex_replace("^.*#") }}'
     enabled: false
-  name: Change Status of VS Module05-07
+  name: Change Status of VS Module05-06
   loop: "{{ vs_collect['obj']['results'] }}"
   loop_control:
     loop_var: vs_detail
@@ -30,13 +30,13 @@
         name: Default-Group
         cloud_ref.name: Default-Cloud
   register: seg_collect
-  name: Collect SEG Info Module05-07
+  name: Collect SEG Info Module05-06
 - avi_api_session:
     avi_credentials: "{{ avi_credentials }}"
     tenant: admin
     http_method: delete
     path: 'serviceengine/{{ se_uuid | regex_replace("^.*serviceengine/")  }}'
-  name: SE Cleanup Module05-07
+  name: SE Cleanup Module05-06
   loop: "{{ seg_collect['obj']['results'][0]['serviceengines'] }}"
   loop_control:
     loop_var: se_uuid
@@ -69,7 +69,7 @@
             - 
                 type: V4
                 addr: 172.20.10.10
-  name: Modify Systemconfig Module05-07
+  name: Modify Systemconfig Module05-06
 - avi_virtualservice:
     avi_api_patch_op: replace
     avi_api_update_method: patch
@@ -79,7 +79,7 @@
     name: "{{ vs_detail.name }}"
     cloud_ref: '/api/cloud?name={{ vs_detail.cloud_ref | regex_replace("^.*#") }}'
     enabled: true
-  name: Change Status of VS Module05-07
+  name: Change Status of VS Module05-06
   loop: "{{ vs_collect['obj']['results'] }}"
   loop_control:
     loop_var: vs_detail
