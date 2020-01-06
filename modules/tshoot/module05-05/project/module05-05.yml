@@ -20,45 +20,6 @@
   loop: "{{ vs_collect['obj']['results'] }}"
   loop_control:
     loop_var: vs_detail
-- avi_api_session:
-    avi_credentials: "{{ avi_credentials }}"
-    tenant: "*"
-    http_method: get
-    path: serviceenginegroup-inventory
-    params:
-        fields: serviceegnines
-        name: Default-Group
-        cloud_ref.name: Default-Cloud
-  register: seg_collect
-  name: Collect Service Engine Info Module05-05
-- avi_api_session:
-    avi_credentials: "{{ avi_credentials }}"
-    tenant: admin
-    http_method: delete
-    path: 'serviceengine/{{ se_uuid | regex_replace("^.*serviceengine/")  }}'
-  name: SE Cleanup Module05-05
-  loop: "{{ seg_collect['obj']['results'][0]['serviceengines'] }}"
-  loop_control:
-    loop_var: se_uuid
-- name: SEG Modify Module05-05
-  avi_serviceenginegroup:
-      avi_credentials: "{{ avi_credentials }}"
-      vcpus_per_se: 1
-      se_name_prefix: saseg01
-      max_vs_per_se: 100
-      max_scaleout_per_vs: 2
-      vcenter_folder: AviSeLab
-      vcenter_datastore_mode: "VCENTER_DATASTORE_ANY"
-      min_scaleout_per_vs: 2
-      name: Default-Group
-      buffer_se: 0
-      mem_reserve: false
-      max_se: 2
-      memory_per_se: 2048
-      algo: PLACEMENT_ALGO_PACKED
-      tenant_ref: /api/tenant/?name=admin
-      tenant: admin
-      cloud_ref: '/api/cloud/?name=Default-Cloud'
 - name: Update Cloud Module05-05
   avi_cloud:
       avi_credentials: "{{ avi_credentials }}"
@@ -66,12 +27,12 @@
       ipam_provider_ref: '/api/ipamdnsproviderprofile/?name=ipam-sa'
       name: Default-Cloud
       vcenter_configuration:
-          username: aviuser@vsphere.local
+          username: administrator@vsphere.local
           datacenter: SA-Datacenter
           management_network: '/api/vimgrnwruntime/?name=pg-SA-Management'
           privilege: WRITE_ACCESS
           vcenter_url: sa-vcsa-01.vclass.local
-          password: "{{ avi_credentials.password }}"
+          password: wrongpassword
       tenant_ref: '/api/tenant/?name=admin'
       tenant: admin
       dhcp_enabled: true
