@@ -1,6 +1,7 @@
 avi_config:
   pool:
       -   lb_algorithm: LB_ALGORITHM_CONSISTENT_HASH
+          state: "{{ object_state | default(omit) }}"
           lab_algorithm_hash: LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS
           default_server_port: 30002
           servers:
@@ -35,6 +36,7 @@ avi_config:
           enabled: true
   healthmonitor:
       - 
+          state: "{{ object_state | default(omit) }}"
           https_monitor:
               exact_http_request: false
               http_request: HEAD / HTTP/1.0
@@ -50,6 +52,7 @@ avi_config:
           successful_checks: 3
   vsvip:
       - 
+          state: "{{ object_state | default(omit) }}"
           dns_info:
               - 
                   num_records_in_response: 1
@@ -95,6 +98,7 @@ avi_config:
               tenant_vrf: false
   vsdatascriptset:
       - 
+        state: "{{ object_state | default(omit) }}"
         datascript:
           - 
             evt: VS_DATASCRIPT_EVT_HTTP_RESP
@@ -104,6 +108,7 @@ avi_config:
         name: module04-09_backend_serverip
   virtualservice:
       - 
+          state: "{{ object_state | default(omit) }}"
           network_profile_ref: '/api/networkprofile/?name=System-TCP-Proxy'
           tenant_ref: /api/tenant/?name=module04-09
           tenant: module04-09

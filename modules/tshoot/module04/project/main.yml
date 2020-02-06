@@ -5,6 +5,28 @@
   vars_files:
   - ../vars/shared_vars.yml
   tasks:
+  - name: Cleanup
+    include_role:
+      name: avinetworks.aviconfig
+    vars:
+      object_state: absent
+      avi_config_file: "{{ module_name }}.yml"
+    loop:
+      - "module04-00"
+      - "module04-01"
+      - "module04-02"
+      - "module04-03"
+      - "module04-04"
+      - "module04-05"
+      - "module04-06"
+      - "module04-07"
+      - "module04-08"
+      - "module04-09"
+      - "module04-10"
+      - "module04-11"
+      - "module04-12"
+    loop_control:
+      loop_var: module_name
   - name: Setup module04
     include_role:
       name: avinetworks.aviconfig
