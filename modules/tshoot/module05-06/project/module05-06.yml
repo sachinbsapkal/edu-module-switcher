@@ -42,6 +42,7 @@
     loop_var: se_uuid
 - avi_systemconfiguration:
     avi_credentials: "{{ avi_credentials }}"
+    welcome_workflow_complete: true
     email_configuration:
         mail_server_name: localhost
         mail_server_port: 25
