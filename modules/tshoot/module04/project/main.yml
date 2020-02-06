@@ -12,7 +12,6 @@
       object_state: absent
       avi_config_file: "{{ module_name }}.yml"
     loop:
-      - "module04-00"
       - "module04-01"
       - "module04-02"
       - "module04-03"
@@ -33,7 +32,6 @@
     vars:
       avi_config_file: "{{ module_name }}"
     loop:
-      - "module04-00.yml"
       - "module04-01.yml"
       - "module04-02.yml"
       - "module04-03.yml"
