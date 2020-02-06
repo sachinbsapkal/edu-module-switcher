@@ -5,13 +5,33 @@
   vars_files:
   - ../vars/shared_vars.yml
   tasks:
+  - name: Cleanup
+    include_role:
+      name: avinetworks.aviconfig
+    vars:
+      object_state: absent
+      avi_config_file: "{{ module_name }}.yml"
+    loop:
+      - "module04-01"
+      - "module04-02"
+      - "module04-03"
+      - "module04-04"
+      - "module04-05"
+      - "module04-06"
+      - "module04-07"
+      - "module04-08"
+      - "module04-09"
+      - "module04-10"
+      - "module04-11"
+      - "module04-12"
+    loop_control:
+      loop_var: module_name
   - name: Setup module04
     include_role:
       name: avinetworks.aviconfig
     vars:
       avi_config_file: "{{ module_name }}"
     loop:
-      - "module04-00.yml"
       - "module04-01.yml"
       - "module04-02.yml"
       - "module04-03.yml"
@@ -23,6 +43,33 @@
       - "module04-09.yml"
       - "module04-10.yml"
       - "module04-11.yml"
+    loop_control:
+      loop_var: module_name
+  - name: Current VS Count
+    avi_api_session:
+      avi_credentials: "{{ avi_credentials }}"
+      tenant: "*"
+      http_method: get
+      path: virtualservice
+      params:
+          fields: name
+    register: vs_collect
+  - name: SEG VS Capacity Update
+    avi_serviceenginegroup:
+        avi_credentials: "{{ avi_credentials }}"
+        avi_api_patch_op: replace
+        avi_api_update_method: patch
+        max_vs_per_se: "{{ vs_collect['obj']['count'] }}"
+        name: Default-Group
+        tenant_ref: /api/tenant/?name=admin
+        tenant: admin
+        cloud_ref: '/api/cloud/?name=Default-Cloud'
+  - name: Setup module04-12
+    include_role:
+      name: avinetworks.aviconfig
+    vars:
+      avi_config_file: "{{ module_name }}"
+    loop:
       - "module04-12.yml"
     loop_control:
       loop_var: module_name

@@ -1,6 +1,7 @@
 avi_config:
   pool:
       -   lb_algorithm: LB_ALGORITHM_LEAST_CONNECTIONS
+          state: "{{ object_state | default(omit) }}"
           default_server_port: 30002
           servers:
               - 
@@ -32,6 +33,7 @@ avi_config:
           enabled: true
   vsvip:
       - 
+          state: "{{ object_state | default(omit) }}"
           dns_info:
               - 
                   num_records_in_response: 1
@@ -77,6 +79,7 @@ avi_config:
               tenant_vrf: false
   applicationprofile:
       -
+        state: "{{ object_state | default(omit) }}"
         type: APPLICATION_PROFILE_TYPE_HTTP
         tenant_ref: /api/tenant/?name=module04-05
         tenant: module04-05
@@ -90,6 +93,7 @@ avi_config:
         name: module04-05-app_profile
   virtualservice:
       - 
+          state: "{{ object_state | default(omit) }}"
           network_profile_ref: '/api/networkprofile/?name=System-TCP-Proxy'
           tenant_ref: /api/tenant/?name=module04-05
           tenant: module04-05
@@ -130,6 +134,7 @@ avi_config:
           flow_label_type: NO_LABEL
   httppolicyset:
       -
+        state: "{{ object_state | default(omit) }}"
         tenant_ref: /api/tenant/?name=module04-05
         tenant: module04-05
         http_request_policy:

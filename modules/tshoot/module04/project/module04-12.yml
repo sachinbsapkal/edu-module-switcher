@@ -1,6 +1,7 @@
 avi_config:
   pool:
       -   lb_algorithm: LB_ALGORITHM_LEAST_CONNECTIONS
+          state: "{{ object_state | default(omit) }}"
           default_server_port: 30002
           servers:
               - 
@@ -34,6 +35,7 @@ avi_config:
               - '/api/healthmonitor/?name=System-HTTP'
   vsvip:
       - 
+          state: "{{ object_state | default(omit) }}"
           dns_info:
               - 
                   num_records_in_response: 1
@@ -79,6 +81,7 @@ avi_config:
               tenant_vrf: false
   virtualservice:
       - 
+          state: "{{ object_state | default(omit) }}"
           network_profile_ref: '/api/networkprofile/?name=System-TCP-Proxy'
           tenant_ref: /api/tenant/?name=module04-12
           tenant: module04-12

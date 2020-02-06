@@ -1,6 +1,7 @@
 avi_config:
   pool:
       -   lb_algorithm: LB_ALGORITHM_LEAST_CONNECTIONS
+          state: "{{ object_state | default(omit) }}"
           default_server_port: 30443
           servers:
               - 
@@ -34,6 +35,7 @@ avi_config:
           enabled: true
   vsvip:
       - 
+          state: "{{ object_state | default(omit) }}"
           dns_info:
               - 
                   num_records_in_response: 1
@@ -79,6 +81,7 @@ avi_config:
               tenant_vrf: false
   sslprofile:
       - 
+          state: "{{ object_state | default(omit) }}"
           accepted_ciphers: 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA'
           name: module04-10_ssl_profile
           accepted_versions:
@@ -94,6 +97,7 @@ avi_config:
           type: SSL_PROFILE_TYPE_APPLICATION 
   virtualservice:
       - 
+          state: "{{ object_state | default(omit) }}"
           network_profile_ref: '/api/networkprofile/?name=System-TCP-Proxy'
           tenant_ref: /api/tenant/?name=module04-10
           tenant: module04-10
