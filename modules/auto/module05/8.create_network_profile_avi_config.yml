@@ -1,0 +1,21 @@
+---
+- connection: local
+  hosts: localhost
+  gather_facts: false
+  vars:
+    avi_config:
+      networkprofile:
+        - name: ansible-avi-tcp
+          tenant: admin
+          state: present
+          profile:
+            type: PROTOCOL_TYPE_TCP_PROXY
+            tcp_proxy_profile:
+              automatic: true
+    avi_controller: sa-avicon-01.vclass.local
+    avi_username: admin
+    avi_password: VMware1!
+  tasks:
+  - name: Create Network Profile
+    include_role:
+      name: avinetworks.aviconfig

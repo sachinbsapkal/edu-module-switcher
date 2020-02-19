@@ -1,0 +1,31 @@
+---
+- connection: local
+  hosts: localhost
+  gather_facts: false
+  vars:
+    avi_config:
+      virtualservice:
+        - name: avinetworks-ansible-avi-config
+          tenant: admin
+          state: present
+          cloud_ref: /api/cloud?name=Default-Cloud
+          services:
+          - enable_ssl: false
+            port: '80'
+          pool_ref: /api/pool/?name=module-switcher-pool
+          application_profile_ref: /api/applicationprofile/?name=ansible-avi-http
+          network_profile_ref: /api/networkprofile/?name=ansible-avi-tcp
+          vip:
+          - ip_address:
+              addr: 172.20.130.101
+              type: V4
+            vip_id: '1'
+          vrf_context_ref: /api/vrfcontext/?name=global
+    avi_controller: sa-avicon-01.vclass.local
+    avi_username: admin
+    avi_password: VMware1!
+    api_version: 18.2.6
+  tasks:
+  - name: Create Basic Virtual Service
+    include_role:
+      name: avinetworks.aviconfig

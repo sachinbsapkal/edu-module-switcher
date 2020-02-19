@@ -1,0 +1,47 @@
+#Authentication
+controller: sa-avicon-01.vclass.local
+api_version: 18.2.6
+username: admin
+password: VMware1!
+
+#Global
+cloud_ref: /api/cloud/?name=Default-Cloud
+tenant: admin
+tenant_ref: /api/tenant/?name=admin
+vrf: global
+vrf_ref: /api/vrfcontext/?name=global
+vrf_context_ref: /api/vrfcontext/?name=global
+
+#Virtual Service
+virtual_service_name:
+ip_address: 172.20.120.212
+enabled: #true or false
+description: 
+
+#Pool
+pool_name: 
+pool_servers_ip: [ 172.20.130.101, 172.20.130.102, 172.20.130.103, 172.20.130.104 ]
+pool_server_port: 14313
+
+#Application Profile
+application_profile_name: 
+connection_multiplexing_enabled: true #true or false
+xff_enabled: true #true or false
+
+#Network Profile
+network_profile_name: 
+
+#SSL Profile
+ssl_profile_name:
+
+#SSL Key and Cert
+ssl_key_name:
+
+
+
+
+
+
+
+
+

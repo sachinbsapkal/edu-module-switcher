@@ -1,0 +1,19 @@
+- hosts: localhost
+  connection: local
+  roles:
+    - avinetworks.avisdk
+  vars_files:
+    - "vars.yml"
+  tasks:
+  - name: 
+    avi_virtualservice:
+      controller: '{{ controller }}'
+      username: '{{ username }}'
+      password: '{{ password }}'
+      name: avinetworks-ansible-sdk-advanced
+      avi_api_update_method: patch
+      avi_api_patch_op: add
+      services:
+      - enable_ssl: false
+        port: '80'
+      application_profile_ref: /api/applicationprofile/?name=System-Secure-HTTP

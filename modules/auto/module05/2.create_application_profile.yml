@@ -1,0 +1,29 @@
+---
+- connection: local
+  hosts: localhost
+  roles:
+  - avinetworks.avisdk
+  - avinetworks.avimigrationtools
+  vars:
+    state: present
+  tasks:
+  - avi_applicationprofile: #Avi Ansible Module
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      controller: '{{ controller }}'
+      description: null
+      http_profile:
+        client_max_header_size: 32
+        connection_multiplexing_enabled: true
+        secure_cookie_enabled: false
+        x_forwarded_proto_enabled: false
+        xff_alternate_name: null
+        xff_enabled: false
+      name: ansible-sdk-http #Application Profile Name
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      type: APPLICATION_PROFILE_TYPE_HTTP
+      username: '{{ username }}'
+    name: 'Create or Update ApplicationProfile: ansible-sdk-http' #Ansible Task Name
