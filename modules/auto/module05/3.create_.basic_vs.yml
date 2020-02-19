@@ -1,0 +1,39 @@
+---
+- connection: local
+  hosts: localhost
+  roles:
+  - avinetworks.avisdk
+  - avinetworks.avimigrationtools
+  vars:
+    state: present
+  tasks:
+  - avi_virtualservice:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      application_profile_ref: /api/applicationprofile/?name=ansible-sdk-http
+      cloud_ref: /api/cloud?name=Default-Cloud
+      controller: '{{ controller }}'
+      description: null
+      enabled: true
+      name: avinetworks-ansible-sdk
+      network_profile_ref: /api/networkprofile/?name=ansible-sdk-tcp
+      password: '{{ password }}'
+      pool_ref: /api/pool/?name=module-switcher-pool
+      services:
+      - enable_ssl: false
+        port: '80'
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      traffic_enabled: false
+      type: VS_TYPE_NORMAL
+      username: '{{ username }}'
+      vip:
+      - ip_address:
+          addr: 172.20.120.210
+          type: V4
+        vip_id: '1'
+      vrf_context_ref: /api/vrfcontext/?name=global
+      vs_datascripts: []
+    name: 'Create or Update VirtualService: avinetworks-ansible-sdk'
+

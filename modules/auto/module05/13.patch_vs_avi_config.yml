@@ -1,0 +1,24 @@
+
+---
+- connection: local
+  hosts: localhost
+  gather_facts: false
+  vars:
+    avi_config:
+      virtualservice:
+        - name: avinetworks-ansible-avi-config-advanced
+          state: present
+          services:
+          - enable_ssl: false
+            port: '80'
+          avi_api_update_method: patch
+          avi_api_patch_op: add
+          application_profile_ref: /api/applicationprofile/?name=System-Secure-HTTP
+    avi_controller: sa-avicon-01.vclass.local
+    avi_username: admin
+    avi_password: VMware1!
+    api_version: 18.2.6
+  tasks:
+  - name: Update Advanced Virtual Service
+    include_role:
+      name: avinetworks.aviconfig

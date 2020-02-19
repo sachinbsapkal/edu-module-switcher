@@ -1,0 +1,17 @@
+---
+- connection: local
+  hosts: localhost
+  gather_facts: false
+  vars:
+    avi_config:
+      virtualservice:
+        - name: avinetworks-ansible-avi-config
+          state: absent
+    avi_controller: sa-avicon-01.vclass.local
+    avi_username: admin
+    avi_password: VMware1!
+    api_version: 18.2.6
+  tasks:
+  - name: Delete Advanced Virtual Service
+    include_role:
+      name: avinetworks.aviconfig

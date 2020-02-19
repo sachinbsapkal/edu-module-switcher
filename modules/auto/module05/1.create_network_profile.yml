@@ -1,0 +1,33 @@
+
+---
+- connection: local
+  hosts: localhost
+  roles:
+  - avinetworks.avisdk
+  - avinetworks.avimigrationtools
+  vars:
+    state: present
+  tasks:
+  - avi_networkprofile: #Avi Ansible Module
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version}}'
+      controller: '{{ controller }}'
+      name: ansible-sdk-tcp #Network Profile Name
+      password: '{{ password }}'
+      profile:
+        tcp_proxy_profile:
+          automatic: false
+          cc_algo: CC_ALGO_HTCP
+          idle_connection_timeout: '300'
+          idle_connection_type: KEEP_ALIVE
+          max_retransmissions: '8'
+          max_syn_retransmissions: '3'
+          nagles_algorithm: false
+          receive_window: 63
+          time_wait_delay: '2000'
+        type: PROTOCOL_TYPE_TCP_PROXY
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      username: '{{ username }}'
+    name: 'Create or Update NetworkProfile: ansible-sdk-tcp' #Ansible Task Name

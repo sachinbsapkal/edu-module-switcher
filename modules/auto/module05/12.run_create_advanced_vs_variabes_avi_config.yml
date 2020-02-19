@@ -1,0 +1,23 @@
+
+---
+- connection: local
+  hosts: localhost
+  gather_facts: false
+  vars:
+    avi_controller: sa-avicon-01.vclass.local
+    avi_username: admin
+    avi_password: VMware1!
+    api_version: 18.2.6
+  vars_files:
+    - "vars/vars2.yml" #This points to the vars file you need to populate prior to running this playbook
+  tasks:
+  - set_fact:
+      pool_servers: "{{ pool_servers | default([]) + [{'port': pool_server_port , 'ip': {'type': 'V4', 'addr': pool_servers_member_ip }}]}}"
+    loop: "{{ pool_servers_ip }}"
+    loop_control:
+      loop_var: pool_servers_member_ip
+  - name: Create Advanced Virtual Service
+    include_role:
+      name: avinetworks.aviconfig
+    vars:
+      avi_config_file: "config.yml" #This points to the application configuration file named "config.yml"

@@ -1,0 +1,224 @@
+---
+- connection: local
+  hosts: localhost
+  roles:
+  - avinetworks.avisdk
+  - avinetworks.avimigrationtools
+  vars:
+    state: present
+  tasks:
+  - avi_sslprofile:
+      accepted_ciphers: ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA
+      accepted_versions:
+      - type: SSL_VERSION_TLS1
+      - type: SSL_VERSION_TLS1_1
+      - type: SSL_VERSION_TLS1_2
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      controller: '{{ controller }}'
+      name: ansible-sdk-ssl
+      password: '{{ password }}'
+      send_close_notify: true
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      username: '{{ username }}'
+    name: 'Create or Update sslprofile: ansible-sdk-ssl'
+  - avi_sslkeyandcertificate:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      certificate:
+        certificate: '-----BEGIN CERTIFICATE-----
+
+          MIIC4zCCAcsCAgPoMA0GCSqGSIb3DQEBCwUAMDcxCzAJBgNVBAYTAlVTMRUwEwYD
+
+          VQQKDAxBdmkgTmV0d29ya3MxETAPBgNVBAMMCGF2aXRvb2xzMB4XDTE5MDYyNDE0
+
+          NDk0N1oXDTI5MDYyMTE0NDk0N1owNzELMAkGA1UEBhMCVVMxFTATBgNVBAoMDEF2
+
+          aSBOZXR3b3JrczERMA8GA1UEAwwIYXZpdG9vbHMwggEiMA0GCSqGSIb3DQEBAQUA
+
+          A4IBDwAwggEKAoIBAQCoL7VXD1oEoUubEmUpy4Hb58LILCWBy9bcvZWRzhOXFrHw
+
+          EZSXn1F6x6bFNb1Py9cLdQf/EDphoJYIbj86gFzGmlG2acEBpq/OGZvml7G6tu3G
+
+          PqBhLNEQWqrBU07gAXXVsDN8ANceBwTVmtjtEhBAejoC5cOEdHRuvo5eiGrWqPa+
+
+          cQ06AjpMyA/W7Yl608PpxIBepkQb0wEXe69lDqBS9HLFDsVqVkknwXSCjPJTlHN2
+
+          lT0XBAFtWfjn/U/JlTDaCavmr9HC+glItFeJhMc5kGIIOUkDLX3Fb5GjtpGj94Ba
+
+          uutZZLc8EwbqmU2jtZqlqwZLVs4ldQgekLqzo3s5AgMBAAEwDQYJKoZIhvcNAQEL
+
+          BQADggEBAC1AR4At3MG9iM4dGZwyeKQ5RKkeyjt6m0ZhqKZBR/WW6d2hZKMYb6j9
+
+          CIw2LnmATk5pSPKBfHb4oFJqHYQcFWB6ZS/zqF/CErVuwVNOz8PifNFDy47p81LF
+
+          64lrwe2GV0b5vJ4HB9zYXgPY8pi3LZM4jcnvt7R4wIgj2oJTPIBxVVWpQYEWQS4a
+
+          5+XPYLKDlZWmvI5L6WcP54ZTQE4RqqDFBo5fcmTsf6csCXNQZIcX1voLgN+y0zDV
+
+          jJ4itDw3pEP1QqYV6pg9afy/zcDGM8l/eHTAD8oRqlaj4B1ilJ4T9iL92v9UEqyC
+
+          5gi5ct5Oma06H63C/t3dOSKGt60Zu/s=
+
+          -----END CERTIFICATE-----
+
+          '
+      controller: '{{ controller }}'
+      key: '-----BEGIN PRIVATE KEY-----
+
+        MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCoL7VXD1oEoUub
+
+        EmUpy4Hb58LILCWBy9bcvZWRzhOXFrHwEZSXn1F6x6bFNb1Py9cLdQf/EDphoJYI
+
+        bj86gFzGmlG2acEBpq/OGZvml7G6tu3GPqBhLNEQWqrBU07gAXXVsDN8ANceBwTV
+
+        mtjtEhBAejoC5cOEdHRuvo5eiGrWqPa+cQ06AjpMyA/W7Yl608PpxIBepkQb0wEX
+
+        e69lDqBS9HLFDsVqVkknwXSCjPJTlHN2lT0XBAFtWfjn/U/JlTDaCavmr9HC+glI
+
+        tFeJhMc5kGIIOUkDLX3Fb5GjtpGj94BauutZZLc8EwbqmU2jtZqlqwZLVs4ldQge
+
+        kLqzo3s5AgMBAAECggEACTFCWhXOt74RIdKpkNU8rcZHESXIjwWTItGB4UxAKdvl
+
+        sddkJb1heLJ83P6I8FmV0Vx+KWS7rCZYzPEpp4rohzpcCPpSwEJaDYu8x6e24Ruq
+
+        d1Fo9qa6bohmGNby0q+Bv0I4LijlmRCNJRenj52TIdMMZKgmPZEX5A2qPmR6Ym0X
+
+        BCWZ2W9uyMIUCAHuiqpbQw87GEbf17bs4wZIwJrnGlbI0exfb34Ufh1VtXGEDxVO
+
+        zuVV/yvEUKQiEMUP5KQUpF1vW38z/ZaNtF/3cs+Xe7LyIgAr26tXmLjOEVtvWpyj
+
+        upUaCvMG/vLm2Qh2oIQq2ENlc6vUx5urnL7Un1/vYQKBgQDdlanS8KUN0QWFBicV
+
+        HXSjrDclMyaJjzr7AwQE6GKboYpWJAdV6YSDSLzALNtvOM1Af+zMeRg3cHB6Nk0U
+
+        Wfm8mcmjs58t4JkLLgtFj1JXni8OiJjAZ/iyBBUPuctjw4PEhMcIH2aUu+yxns3e
+
+        kXxrhu08Rtdb3FoCKVhW658kLQKBgQDCTuX1mlFLWBtkgJcaaiv1r93Rjo5xUsrd
+
+        xnuvI+7KbdA6mF4Z5MRWgmhYFbaM7KeeJtFBje3TrbFpwsKfp+0fUIoX2x5mFDmX
+
+        selC8vnP2quqVidVTaYN7jUAZrz1sv+lBX3G699oQWhic2/6gfF5s86tEWnUqo5t
+
+        1+L1a1qevQKBgHHAn0n22ATbxSWhHvcsA/DyO+0Q8Tu1F+Y8iheq5NRYfZfzLwDf
+
+        vHNZJ+zQGmZilpwCECJ4GAJ96oAS2EcWWaqEmIs9bv4ySt7+aDLxfKgWQLoJTcGY
+
+        nodkqRtFmjBA8qg0Majt1c+NGdmlWLJlpaXdwnQrOeuil2J8rykQFMaRAoGAWBkR
+
+        pmOLTE/sS4sJ943/1GsidWrfJn5VQGxHk8cE838KlCaVM8RHSLnjuVxO4mJCNTCA
+
+        W+qP1BPChqMpPt4SYspPcjWE+N9epWqiyhoELbuFbbuWJdUI3vQLz9zE+9lmk1mE
+
+        B3bWWhydyVVxhfD4nSdrI4jrpOKXpTHm00MTWTkCgYEAqKHvY3QOCoMZ9qG3iQOR
+
+        MLaCPODNICXrrdL43wK4+jzdmzgy4wDHHPWhbROh/jWiaoRJzm1lLAOzq83FiKNl
+
+        GEAhhFNhjG8FYSFoRNMQFidhlKuqOPRevKyVjR7gwqmY5OPQGzgwfk2WhaiJXA92
+
+        zLGDm0EJ7rzL2LZZH6Hr/RA=
+
+        -----END PRIVATE KEY-----
+
+        '
+      name: ansible-sdk.crt-dummy
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      type: SSL_CERTIFICATE_TYPE_VIRTUALSERVICE
+      username: '{{ username }}'
+    name: 'Create or Update sslkeyandcertificate: ansible-sdk.crt-dummy'
+  - avi_vrfcontext:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      cloud_ref: /api/cloud/?name=Default-Cloud
+      controller: '{{ controller }}'
+      name: global
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      static_routes: []
+      system_default: true
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      username: '{{ username }}'
+    name: 'Create or Update VrfContext: global'
+  - avi_pool:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      cloud_ref: /api/cloud?name=Default-Cloud
+      controller: '{{ controller }}'
+      description: null
+      fail_action:
+        type: FAIL_ACTION_CLOSE_CONN
+      lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
+      name: avinetworks-ansible-sdk-pool
+      password: '{{ password }}'
+      servers:
+      - description: ''
+        enabled: true
+        hostname: 172.20.130.101
+        ip:
+          addr: 172.20.130.101
+          type: V4
+        port: '80'
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      username: '{{ username }}'
+      vrf_ref: /api/vrfcontext/?name=global
+    name: 'Create or Update Pool: avinetworks-ansible-sdk-pool'
+  - avi_vsvip:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      cloud_ref: /api/cloud?name=Default-Cloud
+      controller: '{{ controller }}'
+      name: 172.20.120.211-vsvip
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      username: '{{ username }}'
+      vip:
+      - ip_address:
+          addr: 172.20.120.211
+          type: V4
+        vip_id: '0'
+      vrf_context_ref: /api/vrfcontext/?name=global
+    name: 'Create or Update VsVip: 172.20.120.211-vsvip'
+  - avi_virtualservice:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      application_profile_ref: /api/applicationprofile/?name=ansible-sdk-http
+      cloud_ref: /api/cloud?name=Default-Cloud
+      controller: '{{ controller }}'
+      description: null
+      enabled: true
+      name: avinetworks-ansible-sdk-advanced
+      network_profile_ref: /api/networkprofile/?name=ansible-sdk-tcp
+      password: '{{ password }}'
+      pool_ref: /api/pool/?name=avinetworks-ansible-sdk-pool
+      services:
+      - enable_ssl: true
+        port: '443'
+      ssl_key_and_certificate_refs:
+      - /api/sslkeyandcertificate/?name=ansible-sdk.crt-dummy
+      ssl_profile_ref: /api/sslprofile/?name=ansible-sdk-ssl
+      state: '{{ state | default(omit)}}'
+      tenant: admin
+      tenant_ref: /api/tenant/?name=admin
+      traffic_enabled: false
+      type: VS_TYPE_NORMAL
+      username: '{{ username }}'
+      vip:
+      - ip_address:
+          addr: 172.20.120.211
+          type: V4
+        vip_id: '1'
+      vrf_context_ref: /api/vrfcontext/?name=global
+      vs_datascripts: []
+      vsvip_ref: /api/vsvip/?name=172.20.120.211-vsvip
+    name: 'Create or Update VirtualService: avinetworks-ansible-sdk'
+

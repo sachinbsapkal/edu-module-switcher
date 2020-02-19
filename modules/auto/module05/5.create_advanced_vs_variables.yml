@@ -1,0 +1,266 @@
+---
+- connection: local
+  hosts: localhost
+  roles:
+  - avinetworks.avisdk
+  - avinetworks.avimigrationtools
+  vars:
+    state: present
+  vars_files:
+    - "vars1.yml"
+  tasks:
+  - avi_networkprofile:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version}}'
+      controller: '{{ controller }}'
+      name: '{{ network_profile_name }}'
+      password: '{{ password }}'
+      profile:
+        tcp_proxy_profile:
+          automatic: false
+          cc_algo: CC_ALGO_HTCP
+          idle_connection_timeout: '300'
+          idle_connection_type: KEEP_ALIVE
+          max_retransmissions: '8'
+          max_syn_retransmissions: '3'
+          nagles_algorithm: false
+          receive_window: 63
+          time_wait_delay: '2000'
+        type: PROTOCOL_TYPE_TCP_PROXY
+      state: '{{ state | default(omit)}}'
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      username: '{{ username }}'
+    name: 'Create or Update NetworkProfile: {{ network_profile_name }}'
+  - avi_applicationprofile: #Avi Ansible Module
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      controller: '{{ controller }}'
+      description: null
+      http_profile:
+        client_max_header_size: 32
+        connection_multiplexing_enabled: '{{ connection_multiplexing_enabled }}'
+        secure_cookie_enabled: false
+        x_forwarded_proto_enabled: false
+        xff_alternate_name: null
+        xff_enabled: '{{ xff_enabled }}'
+      name: '{{ application_profile_name }}'
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      type: APPLICATION_PROFILE_TYPE_HTTP
+      username: '{{ username }}'
+    name: 'Create or Update ApplicationProfile: {{ application_profile_name }}' #Ansible Task Name
+  - avi_sslprofile:
+      accepted_ciphers: ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA
+      accepted_versions:
+      - type: SSL_VERSION_TLS1
+      - type: SSL_VERSION_TLS1_1
+      - type: SSL_VERSION_TLS1_2
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      controller: '{{ controller }}'
+      name: '{{ ssl_profile_name }}'
+      password: '{{ password }}'
+      send_close_notify: true
+      state: '{{ state | default(omit)}}'
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      username: '{{ username }}'
+    name: 'Create or Update sslprofile: {{ ssl_profile_name }}'
+  - avi_sslkeyandcertificate:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      certificate:
+        certificate: '-----BEGIN CERTIFICATE-----
+
+          MIIC4zCCAcsCAgPoMA0GCSqGSIb3DQEBCwUAMDcxCzAJBgNVBAYTAlVTMRUwEwYD
+
+          VQQKDAxBdmkgTmV0d29ya3MxETAPBgNVBAMMCGF2aXRvb2xzMB4XDTE5MDYyNDE0
+
+          NDk0N1oXDTI5MDYyMTE0NDk0N1owNzELMAkGA1UEBhMCVVMxFTATBgNVBAoMDEF2
+
+          aSBOZXR3b3JrczERMA8GA1UEAwwIYXZpdG9vbHMwggEiMA0GCSqGSIb3DQEBAQUA
+
+          A4IBDwAwggEKAoIBAQCoL7VXD1oEoUubEmUpy4Hb58LILCWBy9bcvZWRzhOXFrHw
+
+          EZSXn1F6x6bFNb1Py9cLdQf/EDphoJYIbj86gFzGmlG2acEBpq/OGZvml7G6tu3G
+
+          PqBhLNEQWqrBU07gAXXVsDN8ANceBwTVmtjtEhBAejoC5cOEdHRuvo5eiGrWqPa+
+
+          cQ06AjpMyA/W7Yl608PpxIBepkQb0wEXe69lDqBS9HLFDsVqVkknwXSCjPJTlHN2
+
+          lT0XBAFtWfjn/U/JlTDaCavmr9HC+glItFeJhMc5kGIIOUkDLX3Fb5GjtpGj94Ba
+
+          uutZZLc8EwbqmU2jtZqlqwZLVs4ldQgekLqzo3s5AgMBAAEwDQYJKoZIhvcNAQEL
+
+          BQADggEBAC1AR4At3MG9iM4dGZwyeKQ5RKkeyjt6m0ZhqKZBR/WW6d2hZKMYb6j9
+
+          CIw2LnmATk5pSPKBfHb4oFJqHYQcFWB6ZS/zqF/CErVuwVNOz8PifNFDy47p81LF
+
+          64lrwe2GV0b5vJ4HB9zYXgPY8pi3LZM4jcnvt7R4wIgj2oJTPIBxVVWpQYEWQS4a
+
+          5+XPYLKDlZWmvI5L6WcP54ZTQE4RqqDFBo5fcmTsf6csCXNQZIcX1voLgN+y0zDV
+
+          jJ4itDw3pEP1QqYV6pg9afy/zcDGM8l/eHTAD8oRqlaj4B1ilJ4T9iL92v9UEqyC
+
+          5gi5ct5Oma06H63C/t3dOSKGt60Zu/s=
+
+          -----END CERTIFICATE-----
+
+          '
+      controller: '{{ controller }}'
+      key: '-----BEGIN PRIVATE KEY-----
+
+        MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCoL7VXD1oEoUub
+
+        EmUpy4Hb58LILCWBy9bcvZWRzhOXFrHwEZSXn1F6x6bFNb1Py9cLdQf/EDphoJYI
+
+        bj86gFzGmlG2acEBpq/OGZvml7G6tu3GPqBhLNEQWqrBU07gAXXVsDN8ANceBwTV
+
+        mtjtEhBAejoC5cOEdHRuvo5eiGrWqPa+cQ06AjpMyA/W7Yl608PpxIBepkQb0wEX
+
+        e69lDqBS9HLFDsVqVkknwXSCjPJTlHN2lT0XBAFtWfjn/U/JlTDaCavmr9HC+glI
+
+        tFeJhMc5kGIIOUkDLX3Fb5GjtpGj94BauutZZLc8EwbqmU2jtZqlqwZLVs4ldQge
+
+        kLqzo3s5AgMBAAECggEACTFCWhXOt74RIdKpkNU8rcZHESXIjwWTItGB4UxAKdvl
+
+        sddkJb1heLJ83P6I8FmV0Vx+KWS7rCZYzPEpp4rohzpcCPpSwEJaDYu8x6e24Ruq
+
+        d1Fo9qa6bohmGNby0q+Bv0I4LijlmRCNJRenj52TIdMMZKgmPZEX5A2qPmR6Ym0X
+
+        BCWZ2W9uyMIUCAHuiqpbQw87GEbf17bs4wZIwJrnGlbI0exfb34Ufh1VtXGEDxVO
+
+        zuVV/yvEUKQiEMUP5KQUpF1vW38z/ZaNtF/3cs+Xe7LyIgAr26tXmLjOEVtvWpyj
+
+        upUaCvMG/vLm2Qh2oIQq2ENlc6vUx5urnL7Un1/vYQKBgQDdlanS8KUN0QWFBicV
+
+        HXSjrDclMyaJjzr7AwQE6GKboYpWJAdV6YSDSLzALNtvOM1Af+zMeRg3cHB6Nk0U
+
+        Wfm8mcmjs58t4JkLLgtFj1JXni8OiJjAZ/iyBBUPuctjw4PEhMcIH2aUu+yxns3e
+
+        kXxrhu08Rtdb3FoCKVhW658kLQKBgQDCTuX1mlFLWBtkgJcaaiv1r93Rjo5xUsrd
+
+        xnuvI+7KbdA6mF4Z5MRWgmhYFbaM7KeeJtFBje3TrbFpwsKfp+0fUIoX2x5mFDmX
+
+        selC8vnP2quqVidVTaYN7jUAZrz1sv+lBX3G699oQWhic2/6gfF5s86tEWnUqo5t
+
+        1+L1a1qevQKBgHHAn0n22ATbxSWhHvcsA/DyO+0Q8Tu1F+Y8iheq5NRYfZfzLwDf
+
+        vHNZJ+zQGmZilpwCECJ4GAJ96oAS2EcWWaqEmIs9bv4ySt7+aDLxfKgWQLoJTcGY
+
+        nodkqRtFmjBA8qg0Majt1c+NGdmlWLJlpaXdwnQrOeuil2J8rykQFMaRAoGAWBkR
+
+        pmOLTE/sS4sJ943/1GsidWrfJn5VQGxHk8cE838KlCaVM8RHSLnjuVxO4mJCNTCA
+
+        W+qP1BPChqMpPt4SYspPcjWE+N9epWqiyhoELbuFbbuWJdUI3vQLz9zE+9lmk1mE
+
+        B3bWWhydyVVxhfD4nSdrI4jrpOKXpTHm00MTWTkCgYEAqKHvY3QOCoMZ9qG3iQOR
+
+        MLaCPODNICXrrdL43wK4+jzdmzgy4wDHHPWhbROh/jWiaoRJzm1lLAOzq83FiKNl
+
+        GEAhhFNhjG8FYSFoRNMQFidhlKuqOPRevKyVjR7gwqmY5OPQGzgwfk2WhaiJXA92
+
+        zLGDm0EJ7rzL2LZZH6Hr/RA=
+
+        -----END PRIVATE KEY-----
+
+        '
+      name: '{{ ssl_key_name }}'
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      type: SSL_CERTIFICATE_TYPE_VIRTUALSERVICE
+      username: '{{ username }}'
+    name: 'Create or Update sslkeyandcertificate: {{ ssl_key_name }}'
+  - avi_vrfcontext:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      cloud_ref: '{{ cloud_ref }}'
+      controller: '{{ controller }}'
+      name: '{{ vrf }}'
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      static_routes: []
+      system_default: true
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      username: '{{ username }}'
+    name: 'Create or Update VrfContext: {{ vrf }}'
+  - set_fact:
+      pool_servers: "{{ pool_servers | default([]) + [{'port': pool_server_port , 'ip': {'type': 'V4', 'addr': pool_servers_member_ip }}]}}"
+    loop: "{{ pool_servers_ip }}"
+    loop_control:
+      loop_var: pool_servers_member_ip
+  - avi_pool:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      cloud_ref: '{{ cloud_ref }}'
+      controller: '{{ controller }}'
+      description: null
+      fail_action:
+        type: FAIL_ACTION_CLOSE_CONN
+      lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
+      name: '{{ pool_name }}'
+      password: '{{ password }}'
+      servers: '{{ pool_servers }}'
+      state: '{{ state | default(omit)}}'
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      username: '{{ username }}'
+      vrf_ref: '{{ vrf_ref }}'
+    name: 'Create or Update Pool: {{ pool_name }}'
+  - avi_vsvip:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      cloud_ref: '{{ cloud_ref }}'
+      controller: '{{ controller }}'
+      name: '{{ ip_address }}-vsvip'
+      password: '{{ password }}'
+      state: '{{ state | default(omit)}}'
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      username: '{{ username }}'
+      vip:
+      - ip_address:
+          addr: '{{ ip_address }}'
+          type: V4
+        vip_id: '0'
+      vrf_context_ref: /api/vrfcontext/?name=global
+    name: 'Create or Update VsVip: {{ ip_address }}-vsvip'
+  - avi_virtualservice:
+      api_context: '{{api_context | default(omit)}}'
+      api_version: '{{ api_version }}'
+      application_profile_ref: /api/applicationprofile/?name={{ application_profile_name }}
+      cloud_ref: '{{ cloud_ref }}'
+      controller: '{{ controller }}'
+      description: '{{ description}} '
+      enabled: '{{ enabled }}'
+      name: '{{ virtual_service_name }}'
+      network_profile_ref: /api/networkprofile/?name={{ network_profile_name }}
+      password: '{{ password }}'
+      pool_ref: /api/pool/?name={{ pool_name }}
+      services:
+      - enable_ssl: true
+        port: '443'
+      ssl_key_and_certificate_refs:
+      - /api/sslkeyandcertificate/?name={{ ssl_key_name }}
+      ssl_profile_ref: /api/sslprofile/?name={{ ssl_profile_name }}
+      state: '{{ state | default(omit)}}'
+      tenant: '{{ tenant }}'
+      tenant_ref: '{{ tenant_ref }}'
+      traffic_enabled: false
+      type: VS_TYPE_NORMAL
+      username: '{{ username }}'
+      vip:
+      - ip_address:
+          addr: '{{ ip_address }}'
+          type: V4
+        vip_id: '1'
+      vrf_context_ref: '{{ vrf_context_ref }}'
+      vs_datascripts: []
+      vsvip_ref: /api/vsvip/?name={{ ip_address }}-vsvip
+    name: 'Create or Update VirtualService: {{ virtual_service_name }}'

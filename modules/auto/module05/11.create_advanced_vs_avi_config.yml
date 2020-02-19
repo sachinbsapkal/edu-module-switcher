@@ -1,0 +1,119 @@
+
+---
+- connection: local
+  hosts: localhost
+  gather_facts: false
+  vars:
+    avi_config:
+      virtualservice:
+        - name: avinetworks-ansible-avi-config-advanced
+          tenant: admin
+          state: present
+          cloud_ref: /api/cloud?name=Default-Cloud
+          services:
+          - enable_ssl: true
+            port: '443'
+          pool_ref: /api/pool/?name=avinetworks-ansible-avi-pool
+          application_profile_ref: /api/applicationprofile/?name=ansible-avi-http
+          network_profile_ref: /api/networkprofile/?name=ansible-avi-tcp
+          ssl_key_and_certificate_refs:
+          - /api/sslkeyandcertificate/?name=ansible-avi.crt-dummy
+          ssl_profile_ref: /api/sslprofile/?name=ansible-avi-ssl
+          vip:
+          - ip_address:
+              addr: 172.20.120.213
+              type: V4
+            vip_id: '1'
+          vsvip_ref: /api/vsvip/?name=172.20.120.213-vsvip
+          vrf_context_ref: /api/vrfcontext/?name=global
+      sslprofile:
+        - name: ansible-avi-ssl
+          tenant: admin
+          accepted_ciphers: ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:E    CDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA
+          accepted_versions:
+          - type: SSL_VERSION_TLS1
+          - type: SSL_VERSION_TLS1_1
+          - type: SSL_VERSION_TLS1_2
+      sslkeyandcertificate:
+        - name: ansible-avi.crt-dummy
+          tenant: admin
+          certificate:
+            self_signed: true
+            certificate: |
+              -----BEGIN CERTIFICATE-----
+              MIIC4zCCAcsCAgPoMA0GCSqGSIb3DQEBCwUAMDcxCzAJBgNVBAYTAlVTMRUwEwYD
+              VQQKDAxBdmkgTmV0d29ya3MxETAPBgNVBAMMCGF2aXRvb2xzMB4XDTE5MDYyNDE0
+              NDk0N1oXDTI5MDYyMTE0NDk0N1owNzELMAkGA1UEBhMCVVMxFTATBgNVBAoMDEF2
+              aSBOZXR3b3JrczERMA8GA1UEAwwIYXZpdG9vbHMwggEiMA0GCSqGSIb3DQEBAQUA
+              A4IBDwAwggEKAoIBAQCoL7VXD1oEoUubEmUpy4Hb58LILCWBy9bcvZWRzhOXFrHw
+              EZSXn1F6x6bFNb1Py9cLdQf/EDphoJYIbj86gFzGmlG2acEBpq/OGZvml7G6tu3G
+              PqBhLNEQWqrBU07gAXXVsDN8ANceBwTVmtjtEhBAejoC5cOEdHRuvo5eiGrWqPa+
+              cQ06AjpMyA/W7Yl608PpxIBepkQb0wEXe69lDqBS9HLFDsVqVkknwXSCjPJTlHN2
+              lT0XBAFtWfjn/U/JlTDaCavmr9HC+glItFeJhMc5kGIIOUkDLX3Fb5GjtpGj94Ba
+              uutZZLc8EwbqmU2jtZqlqwZLVs4ldQgekLqzo3s5AgMBAAEwDQYJKoZIhvcNAQEL
+              BQADggEBAC1AR4At3MG9iM4dGZwyeKQ5RKkeyjt6m0ZhqKZBR/WW6d2hZKMYb6j9
+              CIw2LnmATk5pSPKBfHb4oFJqHYQcFWB6ZS/zqF/CErVuwVNOz8PifNFDy47p81LF
+              64lrwe2GV0b5vJ4HB9zYXgPY8pi3LZM4jcnvt7R4wIgj2oJTPIBxVVWpQYEWQS4a
+              5+XPYLKDlZWmvI5L6WcP54ZTQE4RqqDFBo5fcmTsf6csCXNQZIcX1voLgN+y0zDV
+              jJ4itDw3pEP1QqYV6pg9afy/zcDGM8l/eHTAD8oRqlaj4B1ilJ4T9iL92v9UEqyC
+              5gi5ct5Oma06H63C/t3dOSKGt60Zu/s=
+              -----END CERTIFICATE-----
+          key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCoL7VXD1oEoUub
+            EmUpy4Hb58LILCWBy9bcvZWRzhOXFrHwEZSXn1F6x6bFNb1Py9cLdQf/EDphoJYI
+            bj86gFzGmlG2acEBpq/OGZvml7G6tu3GPqBhLNEQWqrBU07gAXXVsDN8ANceBwTV
+            mtjtEhBAejoC5cOEdHRuvo5eiGrWqPa+cQ06AjpMyA/W7Yl608PpxIBepkQb0wEX
+            e69lDqBS9HLFDsVqVkknwXSCjPJTlHN2lT0XBAFtWfjn/U/JlTDaCavmr9HC+glI
+            tFeJhMc5kGIIOUkDLX3Fb5GjtpGj94BauutZZLc8EwbqmU2jtZqlqwZLVs4ldQge
+            kLqzo3s5AgMBAAECggEACTFCWhXOt74RIdKpkNU8rcZHESXIjwWTItGB4UxAKdvl
+            sddkJb1heLJ83P6I8FmV0Vx+KWS7rCZYzPEpp4rohzpcCPpSwEJaDYu8x6e24Ruq
+            d1Fo9qa6bohmGNby0q+Bv0I4LijlmRCNJRenj52TIdMMZKgmPZEX5A2qPmR6Ym0X
+            BCWZ2W9uyMIUCAHuiqpbQw87GEbf17bs4wZIwJrnGlbI0exfb34Ufh1VtXGEDxVO
+            zuVV/yvEUKQiEMUP5KQUpF1vW38z/ZaNtF/3cs+Xe7LyIgAr26tXmLjOEVtvWpyj
+            upUaCvMG/vLm2Qh2oIQq2ENlc6vUx5urnL7Un1/vYQKBgQDdlanS8KUN0QWFBicV
+            HXSjrDclMyaJjzr7AwQE6GKboYpWJAdV6YSDSLzALNtvOM1Af+zMeRg3cHB6Nk0U
+            Wfm8mcmjs58t4JkLLgtFj1JXni8OiJjAZ/iyBBUPuctjw4PEhMcIH2aUu+yxns3e
+            kXxrhu08Rtdb3FoCKVhW658kLQKBgQDCTuX1mlFLWBtkgJcaaiv1r93Rjo5xUsrd
+            xnuvI+7KbdA6mF4Z5MRWgmhYFbaM7KeeJtFBje3TrbFpwsKfp+0fUIoX2x5mFDmX
+            selC8vnP2quqVidVTaYN7jUAZrz1sv+lBX3G699oQWhic2/6gfF5s86tEWnUqo5t
+            1+L1a1qevQKBgHHAn0n22ATbxSWhHvcsA/DyO+0Q8Tu1F+Y8iheq5NRYfZfzLwDf
+            vHNZJ+zQGmZilpwCECJ4GAJ96oAS2EcWWaqEmIs9bv4ySt7+aDLxfKgWQLoJTcGY
+            nodkqRtFmjBA8qg0Majt1c+NGdmlWLJlpaXdwnQrOeuil2J8rykQFMaRAoGAWBkR
+            pmOLTE/sS4sJ943/1GsidWrfJn5VQGxHk8cE838KlCaVM8RHSLnjuVxO4mJCNTCA
+            W+qP1BPChqMpPt4SYspPcjWE+N9epWqiyhoELbuFbbuWJdUI3vQLz9zE+9lmk1mE
+            B3bWWhydyVVxhfD4nSdrI4jrpOKXpTHm00MTWTkCgYEAqKHvY3QOCoMZ9qG3iQOR
+            MLaCPODNICXrrdL43wK4+jzdmzgy4wDHHPWhbROh/jWiaoRJzm1lLAOzq83FiKNl
+            GEAhhFNhjG8FYSFoRNMQFidhlKuqOPRevKyVjR7gwqmY5OPQGzgwfk2WhaiJXA92
+            zLGDm0EJ7rzL2LZZH6Hr/RA=
+            -----END RSA PRIVATE KEY-----
+      pool:
+        - name: avinetworks-ansible-avi-pool
+          tenant: admin
+          cloud_ref: /api/cloud?name=Default-Cloud
+          lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
+          servers:
+          - description: ''
+            enabled: true
+            hostname: 172.20.130.101
+            ip:
+              addr: 172.20.130.101
+              type: V4
+            port: '80'
+      vsvip:
+        - name: 172.20.120.213-vsvip
+          cloud_ref: /api/cloud?name=Default-Cloud
+          tenant: admin
+          vip:
+          - ip_address:
+              addr: 172.20.120.213
+              type: V4
+            vip_id: '0'
+    avi_controller: sa-avicon-01.vclass.local
+    avi_username: admin
+    avi_password: VMware1!
+    api_version: 18.2.6
+  tasks:
+  - name: Create Advanced Virtual Service
+    include_role:
+      name: avinetworks.aviconfig
