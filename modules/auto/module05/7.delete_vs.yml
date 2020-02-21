@@ -5,7 +5,7 @@
   - avinetworks.avisdk
   - avinetworks.avimigrationtools
   vars_files:
-    - "vars.yml"
+    - "vars1.yml"
   tasks:
   - avi_virtualservice:
       api_context: '{{api_context | default(omit)}}'
