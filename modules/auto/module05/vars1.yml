@@ -1,47 +1,38 @@
 #Authentication
-controller: sa-avicon-01.vclass.local
-api_version: 18.2.6
-username: admin
-password: VMware1!
+controller: sa-avicon-01.vclass.local #Don't Modify
+api_version: 18.2.6 #Don't Modify
+username: admin #Don't Modify
+password: VMware1! #Don't Modify
 
 #Global
-cloud_ref: /api/cloud/?name=Default-Cloud
-tenant: admin
-tenant_ref: /api/tenant/?name=admin
-vrf: global
-vrf_ref: /api/vrfcontext/?name=global
-vrf_context_ref: /api/vrfcontext/?name=global
+cloud_ref: /api/cloud/?name=Default-Cloud #Don't Modify
+tenant: admin #Don't Modify
+tenant_ref: /api/tenant/?name=admin #Don't Modify
+vrf: global #Don't Modify
+vrf_ref: /api/vrfcontext/?name=global #Don't Modify
+vrf_context_ref: /api/vrfcontext/?name=global #Don't Modify
 
 #Virtual Service
-virtual_service_name:
-ip_address: 172.20.120.212
-enabled: #true or false
-description: 
+virtual_service_name:  #Add your Virtual Service Name
+ip_address: 172.20.120.212 #Don't Modify
+enabled: true #Don't Modify
+description:  #Add your Virtual Service Description
 
 #Pool
-pool_name: 
-pool_servers_ip: [ 172.20.130.101, 172.20.130.102, 172.20.130.103, 172.20.130.104 ]
-pool_server_port: 14313
+pool_name:  #Add your Pool Name
+pool_servers_ip: [ 172.20.130.101, 172.20.130.102, 172.20.130.103, 172.20.130.104 ] #Don't Modify
+pool_server_port: 30002 #Don't Modify
 
 #Application Profile
-application_profile_name: 
-connection_multiplexing_enabled: true #true or false
-xff_enabled: true #true or false
+application_profile_name:  #Add your Application Profile Name
+connection_multiplexing_enabled: true  #Do you want Connection Multiplexing Enabled? true or false
+xff_enabled: true  #Do you want X-Forwarded-For enabled? true or false
 
 #Network Profile
-network_profile_name: 
+network_profile_name:  #Add your Network Profile Name
 
 #SSL Profile
-ssl_profile_name:
+ssl_profile_name:  #Add your SSL Profile Name
 
 #SSL Key and Cert
-ssl_key_name:
-
-
-
-
-
-
-
-
-
+ssl_key_name:  #Add your SSL Key and Cert Name

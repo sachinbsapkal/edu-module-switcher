@@ -3,7 +3,7 @@
   roles:
     - avinetworks.avisdk
   vars_files:
-    - "vars.yml"
+    - "vars1.yml"
   tasks:
   - name: 
     avi_virtualservice:
