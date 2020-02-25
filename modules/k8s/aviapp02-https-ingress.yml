@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: aviapp02-https-ingress
+spec:
+    rules:
+    - host: aviapp02.sa.vclass.local
+      http:
+        paths:
+        - backend:
+            serviceName: aviapp02-service
+            servicePort: 80
+    tls:
+      - secretName: aviapp02-https-secret
+        hosts:
+        - aviapp02.sa.vclass.local
+

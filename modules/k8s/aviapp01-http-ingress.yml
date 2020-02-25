@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: aviapp01-http-ingress
+  namespace: default
+spec:
+  rules:
+  - host: aviapp01.sa.vclass.local
+    http:
+      paths:
+      - backend:
+          serviceName: aviapp01-service
+          servicePort: 80
+
