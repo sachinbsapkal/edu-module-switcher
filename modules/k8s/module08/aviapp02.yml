@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aviapp02-deployment
+spec:
+  selector:
+    matchLabels:
+      app: aviapp02
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: aviapp02
+    spec:
+      containers:
+      - name: aviapp02-container
+        image: avinetworks/server-os
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: aviapp02-service
+spec:
+  selector:
+    app: aviapp02
+  ports:
+  - protocol: TCP
+    name: http
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
+
