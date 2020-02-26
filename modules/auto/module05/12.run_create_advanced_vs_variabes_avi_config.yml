@@ -9,7 +9,7 @@
     avi_password: VMware1!
     api_version: 18.2.6
   vars_files:
-    - "vars/vars2.yml" #This points to the vars file you need to populate prior to running this playbook
+    - "vars2.yml" #This points to the vars file you need to populate prior to running this playbook
   tasks:
   - set_fact:
       pool_servers: "{{ pool_servers | default([]) + [{'port': pool_server_port , 'ip': {'type': 'V4', 'addr': pool_servers_member_ip }}]}}"
