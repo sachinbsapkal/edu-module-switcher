@@ -78,6 +78,14 @@
           port: 80
       pool_ref: "/api/pool/?name={{ item.name }}-pool"
       name: "{{ item.name }}"
+      analytics_policy:
+        full_client_logs:
+          duration: 0
+          enabled: true
+        metrics_realtime_update:
+          duration: 0
+          enabled: true
+        all_headers: true
     loop:
     - { name: 'dvwa' }
     - { name: 'hackazon' }
